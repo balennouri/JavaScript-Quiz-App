@@ -5,6 +5,10 @@ const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
 
 startButton.addEventListener('click', startGame)
+
+/**
+ * gör så att man klicka på nästa knapp, så att den visar nästa fråga
+ */
 nextButton.addEventListener('click', () => {
     currentQuestionsIndex++
     setNewQuestion()
@@ -20,7 +24,7 @@ function startGame() {
     startButton.classList.add('hide')
     /**
      * det här sätter frågorna så att dom kommer i en viss ordning
-    */
+     */
     shuffledQuestions = questions.sort(() => Math.random() - 0)
     currentQuestionsIndex = 0
     questionContainerElement.classList.remove('hide')
@@ -48,6 +52,7 @@ function showQuestion(question) {
 }
 
 function resetState() {
+    clearStatusClass(document.body)
     nextButton.classList.add('hide')
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild)
@@ -62,8 +67,14 @@ function selectAnswer(e) {
     Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(button, button.dataset.correct)
     })
-    nextButton.classList.remove('hide')
+    if (shuffledQuestions.length > currentQuestionsIndex + 1) {
+        nextButton.classList.remove('hide')
+    } else {
+        startButton.innerText = 'Restart'
+        startButton.classList.remove('hide')
+    }
 }
+
 
 function setStatusClass(element, correct) {
     clearStatusClass(element)
@@ -74,9 +85,9 @@ function setStatusClass(element, correct) {
     }
 }
 
-function clearStatusClass(element){
-element.classList.remove('correct')
-element.classList.remove('wrong')
+function clearStatusClass(element) {
+    element.classList.remove('correct')
+    element.classList.remove('wrong')
 }
 
 // questions

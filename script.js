@@ -1,5 +1,6 @@
 const startButton = document.getElementById('start-btn')
 const nextButton = document.getElementById('next-btn')
+const quitButton = document.getElementById('quit-btn')
 const questionContainerElement = document.getElementById('question-container')
 const questionElement = document.getElementById('question')
 const answerButtonsElement = document.getElementById('answer-buttons')
@@ -13,6 +14,14 @@ nextButton.addEventListener('click', () => {
     currentQuestionsIndex++
     setNewQuestion()
 })
+
+quitButton.addEventListener('click', () => {
+    questionContainerElement.classList.add('hide')
+    startButton.classList.remove('hide')
+    startButton.innerText = 'start'
+    quitButton.classList.add('hide')
+}) 
+
 
 let shuffledQuestions
 let currentQuestionsIndex
@@ -53,6 +62,7 @@ function showQuestion(question) {
 
 function resetState() {
     clearStatusClass(document.body)
+    quitButton.classList.add('hide')
     nextButton.classList.add('hide')
     while (answerButtonsElement.firstChild) {
         answerButtonsElement.removeChild(answerButtonsElement.firstChild)
@@ -72,6 +82,8 @@ function selectAnswer(e) {
     } else {
         startButton.innerText = 'Restart'
         startButton.classList.remove('hide')
+        quitButton.classList.remove('hide')
+
     }
 }
 
